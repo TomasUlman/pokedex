@@ -25,7 +25,7 @@ export default function Search({ onSearch, curPokemon }) {
 
             if (!query) return;
 
-            const pokemon = await fetchPokemon(query, curPokemon);
+            const pokemon = await fetchPokemon(query.toLowerCase().trim(), curPokemon);
 
             onSearch(pokemon);
             setQuery('');
@@ -38,7 +38,7 @@ export default function Search({ onSearch, curPokemon }) {
     return (
         <form className='searchbar' onSubmit={handleSubmit}>
             <div className='searchbar-elements'>
-                <span className='searchbar-header'>Search by name</span>
+                <span className='searchbar-header'>Search by name or ID</span>
                 <div className='input-container'>
                     <input type='text' value={query} onChange={e => {
                         setError(null);
