@@ -27,6 +27,7 @@ body {
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
+    padding-top: env(safe-area-inset-top, 20px);
 }
 
 .hidden {
@@ -334,7 +335,7 @@ body {
     border: var(--light-blue) solid 0.05rem;
     background-color: #82d0fd15;
     box-shadow: 0 0 0.2rem var(--light-blue), 0 0 0.4rem var(--light-blue);
-    height: 30vh;
+    height: auto;
     width: 9vw;
     cursor: pointer;
 }
@@ -353,8 +354,9 @@ body {
 
 .pokemon-item-types-container {
     display: flex;
+    flex-direction: column;
     gap: 0.3rem;
-    margin: 0 1rem 0 1rem;
+    margin: 0 1rem 0.5rem 1rem;
 }
 
 .pokemon-item-type {
@@ -441,6 +443,7 @@ body {
 
     .pokemon-item-types-container {
         margin: 0 0.2rem 0.5rem 0.2rem;
+        flex-direction: row;
     }
 
     .pokemon-item-type {
@@ -548,6 +551,7 @@ body {
 
     .pokemon-item-types-container {
         margin: 0 0.2rem 0.5rem 0.2rem;
+        flex-direction: row;
     }
 
     .pokemon-item-type {
