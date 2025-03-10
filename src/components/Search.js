@@ -1,38 +1,28 @@
 import { useState } from 'react';
-import { fetchPokemon } from '../helpers';
 
 /**
  * Search component to search for a Pokémon by name.
  * @param {Object} props - The component props.
  * @param {Function} props.onSearch - Function to handle the search result.
- * @param {Object} props.curPokemon - The current Pokémon data.
  * @returns {JSX.Element} The rendered search component.
  */
-export default function Search({ onSearch, curPokemon }) {
+export default function Search({ onSearch }) {
     const [query, setQuery] = useState('');
     const [error, setError] = useState(null);
 
     /**
      * Handles the form submission to search for a Pokémon.
      * @param {Event} e - The form submission event.
-     * @returns {Promise<void>}
      */
-    async function handleSubmit(e) {
-        try {
-            e.preventDefault();
+    function handleSubmit(e) {
+        e.preventDefault();
 
-            setError(null);
+        setError(null);
 
-            if (!query) return;
+        if (!query) return;
 
-            const pokemon = await fetchPokemon(query.toLowerCase().trim(), curPokemon);
-
-            onSearch(pokemon);
-            setQuery('');
-        } catch (err) {
-            setError(err.message);
-            onSearch(null);
-        }
+        onSearch(query.toLowerCase().trim(), setError);
+        setQuery('');
     }
 
     return (

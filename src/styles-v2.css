@@ -380,6 +380,23 @@ body {
     cursor: pointer;
 }
 
+/* Loading spinner */
+.spinner-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20vh;
+    margin-bottom: 20vh;
+}
+
+.spinner {
+    width: 2rem;
+    height: 2rem;
+    border: 5px solid rgba(255, 255, 255, 0.3);
+    border-top-color: var(--light-blue);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
 /* 📌 Mobilní zařízení (do 768px) */
 @media (max-width: 767px) {
     .logo span {
@@ -453,6 +470,17 @@ body {
         min-width: 2.5rem;
     }
 }
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
 
 /* 📌 Tablety (769px - 1024px) */
 @media (min-width: 768px) and (max-width: 1024px) {
@@ -564,5 +592,13 @@ body {
     .load-more-btn {
         font-size: 3rem;
         margin: 2rem 0 4rem 0;
+    }
+
+    /* Loading spinner */
+    .spinner {
+        width: 3rem;
+        height: 3rem;
+        border: 8px solid rgba(255, 255, 255, 0.3);
+        border-top-color: var(--light-blue);
     }
 }
