@@ -1,4 +1,4 @@
-import { fetchPokemon, typeColors } from "../helpers";
+import { typeColors } from "../helpers";
 
 /**
  * Component to display the details of a Pokémon.
@@ -7,22 +7,12 @@ import { fetchPokemon, typeColors } from "../helpers";
  * @param {Function} props.setPokemon - Function to set the current Pokémon.
  * @returns {JSX.Element} The rendered Pokémon detail component.
  */
-export default function PokemonDetail({ curPokemon, setPokemon }) {
-    /**
-     * Changes the current Pokémon by fetching new data.
-     * @param {number} id - The ID of the new Pokémon.
-     * @returns {Promise<void>}
-     */
-    async function changePokemon(id) {
-        const newPokemon = await fetchPokemon(id, curPokemon);
-        setPokemon(newPokemon);
-    }
-
+export default function PokemonDetail({ curPokemon, onChangePokemon }) {
     return (
         <div className='pokemon-display'>
-            <PokemonHeader pokemon={curPokemon} changePokemon={changePokemon} />
+            <PokemonHeader pokemon={curPokemon} onChangePokemon={onChangePokemon} />
             <div className='pokemon-detail'>
-                <PokemonEvolutions pokemon={curPokemon} changePokemon={changePokemon} />
+                <PokemonEvolutions pokemon={curPokemon} onChangePokemon={onChangePokemon} />
                 <PokemonAvatar pokemon={curPokemon} />
                 <PokemonOverview pokemon={curPokemon} />
             </div>
@@ -34,21 +24,21 @@ export default function PokemonDetail({ curPokemon, setPokemon }) {
  * Component to display the header of the Pokémon detail.
  * @param {Object} props - The component props.
  * @param {Object} props.pokemon - The current Pokémon data.
- * @param {Function} props.changePokemon - Function to change the current Pokémon.
+ * @param {Function} props.onChangePokemon - Function to change the current Pokémon.
  * @returns {JSX.Element} The rendered Pokémon header component.
  */
-function PokemonHeader({ pokemon, changePokemon }) {
+function PokemonHeader({ pokemon, onChangePokemon }) {
     return (
         <div className='pokemon-header'>
             <span
                 className={pokemon.id === 1 ? 'hidden' : ''}
-                onClick={() => changePokemon(pokemon.id - 1)}
+                onClick={() => onChangePokemon(pokemon.id - 1)}
             >&larr;
             </span>
             <h1>{pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</h1>
             <span
                 className={pokemon.id === 1025 ? 'hidden' : ''}
-                onClick={() => changePokemon(pokemon.id + 1)}
+                onClick={() => onChangePokemon(pokemon.id + 1)}
             >&rarr;
             </span>
         </div>
@@ -59,10 +49,10 @@ function PokemonHeader({ pokemon, changePokemon }) {
  * Component to display the evolutions of the Pokémon.
  * @param {Object} props - The component props.
  * @param {Object} props.pokemon - The current Pokémon data.
- * @param {Function} props.changePokemon - Function to change the current Pokémon.
+ * @param {Function} props.onChangePokemon - Function to change the current Pokémon.
  * @returns {JSX.Element} The rendered Pokémon evolutions component.
  */
-function PokemonEvolutions({ pokemon, changePokemon }) {
+function PokemonEvolutions({ pokemon, onChangePokemon }) {
     return (
         <div className='pokemon-evolutions'>
             <h2>Evolutions</h2>
@@ -73,7 +63,7 @@ function PokemonEvolutions({ pokemon, changePokemon }) {
                             <img
                                 src={pokemon.image}
                                 alt={pokemon.name}
-                                onClick={() => changePokemon(pokemon.id, pokemon)}
+                                onClick={() => onChangePokemon(pokemon.id)}
                             />
                             <span>{pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</span>
                         </div>

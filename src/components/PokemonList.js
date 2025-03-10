@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { fetchPokemon, fetchMultiplePokemons, typeColors } from '../helpers';
+import { fetchMultiplePokemons, typeColors } from '../helpers';
 
 /**
  * Fetches and sets the Pokémon data.
@@ -18,32 +18,23 @@ async function fetchAndSetPokemons(setPokemons, setNextListUrl, nextListUrl, pre
 /**
  * PokemonList component to display a list of Pokémon.
  * @param {Object} props - The component props.
- * @param {Function} props.setPokemon - Function to set the current Pokémon.
- * @param {Object} props.curPokemon - The current Pokémon data.
+ * @param {Function} props.onChangePokemon - Function to set the current Pokémon.
  * @returns {JSX.Element} The rendered Pokémon list component.
  */
-export default function PokemonList({ setPokemon, curPokemon }) {
+export default function PokemonList({ onChangePokemon }) {
     const [pokemons, setPokemons] = useState([]);
     const [nextListUrl, setNextListUrl] = useState(null);
     const effectRun = useRef(false);
 
+    /**
+     * useEffect hook to fetch and set the initial list of Pokémons when the component mounts.
+     */
     useEffect(() => {
         if (!effectRun.current) {
             effectRun.current = true;
             fetchAndSetPokemons(setPokemons, setNextListUrl, 'https://pokeapi.co/api/v2/pokemon?limit=9&offset=0');
         }
     }, []);
-
-    /**
-     * Changes the current Pokémon by fetching new data.
-     * @param {number} id - The ID of the new Pokémon.
-     * @returns {Promise<void>}
-     */
-    async function changePokemon(id) {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        const newPokemon = await fetchPokemon(id, curPokemon);
-        setPokemon(newPokemon);
-    }
 
     return (
         <div className='pokemon-list'>
@@ -52,7 +43,10 @@ export default function PokemonList({ setPokemon, curPokemon }) {
                     <div
                         className='pokemon-list-item'
                         key={pokemon.id}
-                        onClick={() => changePokemon(pokemon.id)}
+                        onClick={() => {
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                            onChangePokemon(pokemon.id)
+                        }}
                     >
                         <img src={pokemon.image} alt={pokemon.name} />
                         <span className='pokemon-item-name'>{pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</span>
